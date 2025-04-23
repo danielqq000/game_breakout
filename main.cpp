@@ -43,14 +43,20 @@ int main() {
         }
     }
 
+    // Parameters
+    bool gameStart = false;
+
     // Game Main Loop
     while(window.isOpen()) {
+
+        // Event Control
         sf::Event event;
         while(window.pollEvent(event)) {
             // Press Esc to terminate
             if(event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+            
         }
 
         // Paddle Control
