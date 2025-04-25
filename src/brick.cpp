@@ -1,8 +1,8 @@
 /*
  * src/brick.cpp
- * Last Update: 4/14/25
+ * Last Update: 4/25/25
  *
- * Brick settings
+ * Brick implementation
  */
 
 #include "brick.hpp"
@@ -13,13 +13,12 @@ Brick::Brick(float x, float y, float width, float height) {
     shape.setPosition(x, y);
 }
 
-void Brick::draw(sf::RenderWindow& window) {
+void Brick::draw(sf::RenderWindow& window) const {
     window.draw(shape);
 }
 
-bool Brick::checkCollision(sf::CircleShape& ball, float& ballSpeedY) {
-    if (ball.getGlobalBounds().intersects(shape.getGlobalBounds())) {
-        ballSpeedY = -ballSpeedY;
+bool Brick::checkCollision(const sf::FloatRect ballBounds) {
+    if (ballBounds.intersects(shape.getGlobalBounds())) {
         return true;
     }
 

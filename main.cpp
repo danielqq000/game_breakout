@@ -9,23 +9,17 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "src/brick.hpp"
+#include "src/ball.hpp"
+#include "src/paddle.hpp"
+#include "src/collision.hpp"
 
 int main() {
     // build a 800x600 window
     sf::RenderWindow window(sf::VideoMode(1280,1060), "Breakout!");
 
-    // Paddle Settings
-    sf::RectangleShape paddle(sf::Vector2f(150, 25));
-    paddle.setFillColor(sf::Color::White);
-    paddle.setPosition(600, 1000); // starting position at bottom-middle
-    float paddleSpeed = 2.0f; // initial moving speed
+    Paddle paddle;
+    Ball ball(10);
 
-    // Ball Settings
-    sf::CircleShape ball(10); // radius
-    ball.setFillColor(sf::Color::Red);
-    ball.setPosition(640,500); // starting postion
-    float ballSpeedX = 1.0f, ballSpeedY = 1.5f; // initial speed
-    
     // Brick Settings
     std::vector<Brick> bricks;
     const int brickRows = 4;
@@ -43,9 +37,6 @@ int main() {
         }
     }
 
-    // Parameters
-    bool gameStart = false;
-
     // Game Main Loop
     while(window.isOpen()) {
 
@@ -56,54 +47,42 @@ int main() {
             if(event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
-            
+
         }
 
         // Paddle Control
         // controling paddle with left/right key.
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
             if(paddle.getPosition().x > 0)
-                paddle.move(-paddleSpeed, 0);
+                paddle.moveLeft();
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
             if(paddle.getPosition().x + paddle.getSize().x < window.getSize().x)
-                paddle.move(paddleSpeed, 0);
+                paddle.moveRight();
         }
 
         // Ball Movement
-        ball.move(ballSpeedX, ballSpeedY);
-        
-        // Ball collision
-        if (ball.getPosition().x <= 0 || ball.getPosition().x + ball.getRadius() * 2 >= window.getSize().x)
-            ballSpeedX = -ballSpeedX;
-        if (ball.getPosition().y <= 0)
-            ballSpeedY = -ballSpeedY;
-        if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds())) {
-            ballSpeedY += 0.05;
-            ballSpeedY = -ballSpeedY;
-        }
+        ball.move();
+        ball.checkCollision(window);
+
+        // Handle Collisions
+        CollisionManager::handleBallPaddle(ball, paddle);
+        CollisionManager::handleBallBricks(ball, bricks);
 
         // ball fall below the screen, for now reset the whole game
         if (ball.getPosition().y > window.getSize().y) {
             sf::sleep(sf::seconds(0.5f));
             ball.setPosition(640, 500);
-            paddle.setPosition(600, 1000);
+            ball.setSpeedX(0);
+            ball.setSpeedY(2.0f);
+            paddle.setPosition(575, 1000); // see paddle def for more
             sf::sleep(sf::seconds(1.5f));
-        }
-
-        // check ball collision with bricks
-        for (auto it = bricks.begin(); it != bricks.end(); ) {
-            if (it->checkCollision(ball, ballSpeedY)) {
-                it = bricks.erase(it);
-            } else {
-                ++it;
-            }
         }
 
         // Window Rendering
         window.clear(sf::Color::Black);
-        window.draw(paddle);
-        window.draw(ball);
+        paddle.draw(window);
+        ball.draw(window);
         for (auto& brick : bricks)
             brick.draw(window);
 

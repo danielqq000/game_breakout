@@ -1,9 +1,10 @@
 /*
  * src/ball.hpp
- * Last Update: 4/20/25
+ * Last Update: 4/25/25
  *
  * Ball settings
  */
+
 #ifndef BALL_HPP
 #define BALL_HPP
 
@@ -11,24 +12,32 @@
 
 class Ball {
 public:
+    // Constructor
     Ball(float radius = 10.0f);
 
-    void update();
-    void reset();
-    void draw(sf::RenderWindow& window);
-    void bounceX();
-    void bounceY();
-    void setInitialPostion(sf::Vector2f pos);
-    sf::Vector2f getPostion() const;
-    sf::FloatRect getBounds() const;
-    sf::Vector2f getVelocity() const;
-    void setVelocity(sf::Vector2f vel);
+    // set Functions
+    void setPosition(const float&, const float&);
+    void setSpeedX(const float&);
+    void setSpeedY(const float&);
+
+    // get Functions
+    sf::Vector2f getPosition() const;
+    float getSpeedX() const;
+    float getSpeedY() const;
+    float getRadius() const;
+    sf::FloatRect getBallBounds() const;
+
+    // Functions
+    void move();
+    void draw(sf::RenderWindow&) const;
+    void checkCollision(const sf::RenderWindow&);
+    void checkSpeed();
 
 private:
     sf::CircleShape shape;
-    sf::Vector2f velocity;
-    sf::Vector2f initialPosition;
-    float speed;
+    sf::Color color;
+    float speedX, speedY;
+    float minSpeedX, minSpeedY;
 };
 
 #endif

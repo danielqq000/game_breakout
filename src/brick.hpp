@@ -1,9 +1,10 @@
 /*
  * src/brick.hpp
- * Last Update: 4/14/25
+ * Last Update: 4/25/25
  *
  * Brick settings
  */
+
 #ifndef BRICK_HPP
 #define BRICK_HPP
 
@@ -13,8 +14,8 @@ class Brick {
 public:
     Brick(float x, float y, float width = 100, float height = 30);
 
-    void draw(sf::RenderWindow& window);
-    bool checkCollision(sf::CircleShape& ball, float& ballSpeedY);
+    void draw(sf::RenderWindow&) const;
+    bool checkCollision(const sf::FloatRect);
     sf::FloatRect getBounds() const;
 
 private:
