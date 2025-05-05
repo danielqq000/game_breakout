@@ -1,6 +1,6 @@
 /*
  * src/paddle.cpp
- * Update: 4/25/25
+ * Update: 5/4/25
  *
  * Paddle implementation
  */
@@ -10,7 +10,7 @@
 Paddle::Paddle()
     : shape(sf::Vector2f(150, 25)), speed(2.5f), color(sf::Color::White) {
         shape.setFillColor(color);
-        shape.setPosition(575, 1000); //slightly to right, perfect should be 565 on 1280 size
+        reset();
 }
 
 void Paddle::setPosition(const float& x, const float& y) {
@@ -47,4 +47,8 @@ void Paddle::moveRight() {
 
 void Paddle::draw(sf::RenderWindow& window) const {
     window.draw(shape);
+}
+
+void Paddle::reset() {
+    shape.setPosition(init_posX, init_posY);
 }

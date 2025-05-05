@@ -1,6 +1,6 @@
 /*
  * src/paddle.hpp
- * Update: 4/25/25
+ * Update: 5/4/25
  *
  * Paddle settings
  */
@@ -29,12 +29,14 @@ public:
     void moveLeft();
     void moveRight();
     void draw(sf::RenderWindow&) const;
+    void reset();
 
 
 private:
     sf::RectangleShape shape;
     sf::Color color;
     float speed;
+    const float init_posX = 545, init_posY = 1000; //slightly to right, perfect should be 565 on 1280 size
 };
 
 #endif

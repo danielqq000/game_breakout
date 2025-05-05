@@ -1,6 +1,6 @@
 /*
  * src/Ball.cpp
- * Last Update: 4/25/25
+ * Last Update: 5/4/25
  *
  * Ball implementation
  */
@@ -8,11 +8,10 @@
 #include "ball.hpp"
 
 Ball::Ball(float radius)
-    : shape(radius), speedX(0), speedY(2.0f), color(sf::Color::Red) {
+    : shape(radius), color(sf::Color::Red) {
     shape.setFillColor(color);
     shape.setOrigin(radius, radius);
-    shape.setPosition(640, 500);
-    minSpeedY = 1.7f;
+    reset();
 }
 
 void Ball::setPosition(const float& x, const float& y) {
@@ -43,7 +42,7 @@ float Ball::getRadius() const {
     return shape.getRadius();
 }
 
-sf::FloatRect Ball::getBallBounds() const {
+sf::FloatRect Ball::getBounds() const {
     return shape.getGlobalBounds();
 }
 
@@ -75,3 +74,8 @@ void Ball::checkSpeed() {
     }
 }
 
+void Ball::reset() {
+    shape.setPosition(init_posX, init_posY);
+    speedX = init_speedX;
+    speedY = init_speedY;
+}
