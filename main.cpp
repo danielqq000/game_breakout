@@ -1,13 +1,14 @@
 /*
  * main.cpp
  * Made by : danielqq000
- * Last Update: 4/14/25
+ * Last Update: 5/4/25
  *
  * Main entrance of this application.
  */
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
 #include "src/brick.hpp"
 #include "src/ball.hpp"
 #include "src/paddle.hpp"
@@ -36,6 +37,19 @@ int main() {
                     );
         }
     }
+
+    // UI
+    int score = 0;
+    sf::Font font;
+    if(!font.loadFromFile("../assets/Jersey25-Regular.ttf")) {
+        std::cerr << "Failed to load\n";
+    }
+
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(10.f, 10.f);
 
     // Game Main Loop
     while(window.isOpen()) {
@@ -67,15 +81,16 @@ int main() {
 
         // Handle Collisions
         CollisionManager::handleBallPaddle(ball, paddle);
-        CollisionManager::handleBallBricks(ball, bricks);
+        if(CollisionManager::handleBallBricks(ball, bricks))
+            score += 100;
 
         // ball fall below the screen, for now reset the whole game
         if (ball.getPosition().y > window.getSize().y) {
             sf::sleep(sf::seconds(0.5f));
-            ball.setPosition(640, 500);
-            ball.setSpeedX(0);
-            ball.setSpeedY(2.0f);
+            ball.reset();
             paddle.setPosition(575, 1000); // see paddle def for more
+            paddle.draw(window);
+            ball.draw(window);
             sf::sleep(sf::seconds(1.5f));
         }
 
@@ -85,6 +100,8 @@ int main() {
         ball.draw(window);
         for (auto& brick : bricks)
             brick.draw(window);
+        scoreText.setString("Score: " + std::to_string(score));
+        window.draw(scoreText);
 
         window.display();
     }
