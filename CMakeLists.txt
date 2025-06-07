@@ -14,7 +14,13 @@ find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 include_directories(include)
 
 # 自動抓取所有 cpp 檔案
-file(GLOB SOURCES "src/*.cpp" "main.cpp")
+
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp" "main.cpp")
+
+message(STATUS "All cpp sources found:")
+foreach(source_file IN LISTS SOURCES)
+    message(STATUS "  ${source_file}")
+endforeach()
 
 # 建立可執行檔
 add_executable(Breakout ${SOURCES})

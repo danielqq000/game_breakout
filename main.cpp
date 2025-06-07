@@ -1,7 +1,7 @@
 /*
  * main.cpp
  * Made by : danielqq000
- * Last Update: 5/4/25
+ * Last Update: 6/7/25
  *
  * Main entrance of this application.
  */
@@ -13,6 +13,13 @@
 #include "src/ball.hpp"
 #include "src/paddle.hpp"
 #include "src/collision.hpp"
+#include "src/UI/UIManager.hpp"
+
+enum class GameState {
+    Playing,
+    Paused
+};
+
 
 int main() {
     // build a 800x600 window
@@ -21,7 +28,17 @@ int main() {
     Paddle paddle;
     Ball ball(10);
 
-    // Brick Settings
+
+    // UI
+    sf::Font font;
+    if(!font.loadFromFile("../assets/Jersey25-Regular.ttf")) {
+        std::cerr << "Failed to load\n";
+    }
+    
+    UIManager uiManager(font);
+
+
+    // Brick setup
     std::vector<Brick> bricks;
     const int brickRows = 4;
     const int brickCols = 10;
@@ -29,28 +46,16 @@ int main() {
     const float brickHeight = 30;
     const float brickSpacing = 5;
 
-    for(int row = 0; row < brickRows; ++row) {
-        for(int col = 0; col < brickCols; ++col) {
+    for (int row = 0; row < brickRows; ++row) {
+        for (int col = 0; col < brickCols; ++col) {
             bricks.emplace_back(
-                    col * (brickWidth + brickSpacing) + 60,
-                    row * (brickHeight + brickSpacing) + 60
-                    );
+                col * (brickWidth + brickSpacing) + 60,
+                row * (brickHeight + brickSpacing) + 60
+            );
         }
     }
 
-    // UI
-    int score = 0;
-    sf::Font font;
-    if(!font.loadFromFile("../assets/Jersey25-Regular.ttf")) {
-        std::cerr << "Failed to load\n";
-    }
-
-    sf::Text scoreText;
-    scoreText.setFont(font);
-    scoreText.setCharacterSize(24);
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(10.f, 10.f);
-
+    GameState gameState = GameState::Playing;
     // Game Main Loop
     while(window.isOpen()) {
 
@@ -61,8 +66,23 @@ int main() {
             if(event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+            
+            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::P) {
+                if(gameState == GameState::Playing) {
+                    gameState = GameState::Paused;
+                    uiManager.setGameState(GameStatus::Paused);
+                }
+                else {
+                    gameState = GameState::Playing;
+                    uiManager.setGameState(GameStatus::None);
+                }
+            }
 
         }
+
+        // game pasued
+        if(gameState == GameState::Paused)
+            goto display;
 
         // Paddle Control
         // controling paddle with left/right key.
@@ -82,12 +102,13 @@ int main() {
         // Handle Collisions
         CollisionManager::handleBallPaddle(ball, paddle);
         if(CollisionManager::handleBallBricks(ball, bricks))
-            score += 100;
+            uiManager.increaseScore(100);
 
         // ball fall below the screen, for now reset the whole game
         if (ball.getPosition().y > window.getSize().y) {
             sf::sleep(sf::seconds(0.5f));
             ball.reset();
+            uiManager.resetScore();
             paddle.setPosition(575, 1000); // see paddle def for more
             paddle.draw(window);
             ball.draw(window);
@@ -95,13 +116,17 @@ int main() {
         }
 
         // Window Rendering
+display:
         window.clear(sf::Color::Black);
         paddle.draw(window);
         ball.draw(window);
         for (auto& brick : bricks)
             brick.draw(window);
-        scoreText.setString("Score: " + std::to_string(score));
-        window.draw(scoreText);
+
+        uiManager.draw(window);
+        if(gameState == GameState::Paused) {
+            uiManager.drawStateText(window);
+        }
 
         window.display();
     }
