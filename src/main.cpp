@@ -9,11 +9,11 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
-#include "src/brick.hpp"
-#include "src/ball.hpp"
-#include "src/paddle.hpp"
-#include "src/collision.hpp"
-#include "src/UI/UIManager.hpp"
+#include "core/brick.hpp"
+#include "core/ball.hpp"
+#include "core/paddle.hpp"
+#include "core/collision.hpp"
+#include "UI/UIManager.hpp"
 
 enum class GameState {
     Playing,

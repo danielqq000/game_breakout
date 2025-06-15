@@ -15,7 +15,7 @@ include_directories(include)
 
 # 自動抓取所有 cpp 檔案
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp" "main.cpp")
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
 message(STATUS "All cpp sources found:")
 foreach(source_file IN LISTS SOURCES)
