@@ -1,6 +1,6 @@
 /*
  * src/paddle.hpp
- * Update: 5/4/25
+ * Update: 6/15/25
  *
  * Paddle settings
  */
@@ -12,17 +12,19 @@
 
 class Paddle {
 public:
-    // Constructor
+    // === Constructor ===
     Paddle();
 
-    // set Functions
-    void setPosition(const float&, const float&);
-    void setSpeed(const float&);
-
-    // get Functions
+    // === Getters & Setters ===
     sf::Vector2f getPosition() const;
+    void setPosition(float, float);
+
     sf::Vector2f getSize() const;
+    void setSize(float, float);
+
     float getSpeed() const;
+    void setSpeed(float);
+
     sf::FloatRect getBounds() const;
 
     // Functions
@@ -36,7 +38,9 @@ private:
     sf::RectangleShape shape;
     sf::Color color;
     float speed;
-    const float init_posX = 545, init_posY = 1000; //slightly to right, perfect should be 565 on 1280 size
+
+    //slightly to right, perfect should be 565 on 1280 size
+    const float init_posX = 545, init_posY = 1000;
 };
 
 #endif

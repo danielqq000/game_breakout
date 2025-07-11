@@ -1,6 +1,6 @@
 /*
  * src/brick.hpp
- * Last Update: 4/25/25
+ * Last Update: 6/15/25
  *
  * Brick settings
  */
@@ -15,7 +15,7 @@ public:
     Brick(float x, float y, float width = 100, float height = 30);
 
     void draw(sf::RenderWindow&) const;
-    bool checkCollision(const sf::FloatRect);
+    bool checkCollision(const sf::FloatRect&) const;
     sf::FloatRect getBounds() const;
 
 private:

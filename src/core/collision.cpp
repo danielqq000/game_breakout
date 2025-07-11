@@ -1,6 +1,6 @@
 /*
  * src/collision.cpp
- * Created: 5/4/25
+ * Created: 6/15/25
  *
  * Collision logic implementation
  */
@@ -11,7 +11,7 @@
 namespace CollisionManager {
 
     // Ball and Paddle Collision
-    void handleBallPaddle(Ball& ball, Paddle& paddle) {
+    void handleBallPaddle(Ball& ball, const Paddle& paddle) {
         const sf::FloatRect& ballBounds = ball.getBounds();
         const sf::FloatRect& paddleBounds = paddle.getBounds();
 
@@ -24,8 +24,16 @@ namespace CollisionManager {
             const float normalizedOffset = offset / (paddle.getSize().x / 2.0f);
             const float baseSpeed = std::sqrt(ball.getSpeedX() * ball.getSpeedX() + ball.getSpeedY() * ball.getSpeedY());
 
-            ball.setSpeedX(normalizedOffset * baseSpeed);
+            // Add paddle movement influence
+            const float paddleInfluence = 0.2f;
+            const float combinedSpeedX = normalizedOffset * baseSpeed + paddle.getSpeed() * paddleInfluence;
+
+            ball.setSpeedX(combinedSpeedX);
             ball.setSpeedY(-std::abs(ball.getSpeedY()));
+
+            // Clamp min speed
+            if (std::abs(ball.getSpeedX()) < 1.5f)
+                ball.setSpeedX((ball.getSpeedX() > 0 ? 1 : -1) * 1.5f);
         }
     }
 

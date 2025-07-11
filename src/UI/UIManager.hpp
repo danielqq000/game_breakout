@@ -1,6 +1,6 @@
 /*
  * src/UI/UIManager.hpp
- * Last Update: 6/7/25
+ * Last Update: 6/15/25
  *
  * UI Manager Settings
  */
@@ -14,7 +14,7 @@
 
 class UIManager {
 public:
-    UIManager(sf::Font& font);
+    UIManager(const sf::Font& font);
 
     void increaseScore(int amount);
     void resetScore();

@@ -1,13 +1,13 @@
 /*
  * src/UI/GameStateText.cpp
- * Last Update:6/7/25
+ * Last Update:6/15/25
  *
  * game state text and UI
  */
 
 #include "GameStateText.hpp"
 
-GameStateText::GameStateText(sf::Font& font) : currentStatus(GameStatus::None) {
+GameStateText::GameStateText(const sf::Font& font) : currentStatus(GameStatus::None) {
     text.setFont(font);
     text.setCharacterSize(60);
     text.setFillColor(sf::Color::White);
@@ -35,9 +35,7 @@ void GameStateText::setStatus(GameStatus status) {
     }
 }
 
-GameStatus GameStateText::getStatus() const {
-    return currentStatus;
-}
+const GameStatus GameStateText::getStatus() const { return currentStatus; }
 
 void GameStateText::draw(sf::RenderWindow& window) const {
     if (currentStatus != GameStatus::None)

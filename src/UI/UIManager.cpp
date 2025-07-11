@@ -1,14 +1,13 @@
 /*
  * src/UI/UIManager.cpp
- * Last Update: 6/7/25
+ * Last Update: 6/15/25
  *
  * UI Manager implementation
  */
 
 #include "UIManager.hpp"
 
-UIManager::UIManager(sf::Font& font)
-    : score(font), gameStateText(font) {}
+UIManager::UIManager(const sf::Font& font) : score(font), gameStateText(font) {}
 
 void UIManager::increaseScore(int amount) {
     score.addScore(amount);
@@ -26,11 +25,5 @@ void UIManager::drawStateText(sf::RenderWindow& window) {
     gameStateText.draw(window);
 }
 
-void UIManager::setGameState(GameStatus status) {
-    gameStateText.setStatus(status);
-}
-
-GameStatus UIManager::getGameState() const {
-    return gameStateText.getStatus();
-}
-
+GameStatus UIManager::getGameState() const { return gameStateText.getStatus(); }
+void UIManager::setGameState(GameStatus status) { gameStateText.setStatus(status); }

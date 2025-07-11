@@ -14,12 +14,12 @@
 #include "core/paddle.hpp"
 #include "core/collision.hpp"
 #include "UI/UIManager.hpp"
+#include "UI/FPSCounter.hpp"
 
 enum class GameState {
     Playing,
     Paused
 };
-
 
 int main() {
     // build a 800x600 window
@@ -36,6 +36,10 @@ int main() {
     }
     
     UIManager uiManager(font);
+    
+    // FPS
+    FPSCounter fpsCounter(font);
+    sf::Clock clock;
 
 
     // Brick setup
@@ -58,6 +62,7 @@ int main() {
     GameState gameState = GameState::Playing;
     // Game Main Loop
     while(window.isOpen()) {
+        float deltaTime = clock.restart().asSeconds();
 
         // Event Control
         sf::Event event;
@@ -117,6 +122,7 @@ int main() {
 
         // Window Rendering
 display:
+        fpsCounter.update(deltaTime, window);
         window.clear(sf::Color::Black);
         paddle.draw(window);
         ball.draw(window);
@@ -128,6 +134,7 @@ display:
             uiManager.drawStateText(window);
         }
 
+        fpsCounter.draw(window);
         window.display();
     }
 

@@ -1,6 +1,6 @@
 /*
  * src/brick.cpp
- * Last Update: 4/25/25
+ * Last Update: 6/15/25
  *
  * Brick implementation
  */
@@ -17,7 +17,7 @@ void Brick::draw(sf::RenderWindow& window) const {
     window.draw(shape);
 }
 
-bool Brick::checkCollision(const sf::FloatRect ballBounds) {
+bool Brick::checkCollision(const sf::FloatRect& ballBounds) const {
     if (ballBounds.intersects(shape.getGlobalBounds())) {
         return true;
     }

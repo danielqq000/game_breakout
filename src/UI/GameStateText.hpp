@@ -1,6 +1,6 @@
 /*
  * src/UI/GameStateText.hpp
- * Last Update: 6/7/25
+ * Last Update: 6/15/25
  *
  * Game States and UI settings
  */
@@ -18,10 +18,10 @@ enum class GameStatus {
 
 class GameStateText {
 public:
-    GameStateText(sf::Font& font);
+    GameStateText(const sf::Font& font);
 
     void setStatus(GameStatus status);
-    GameStatus getStatus() const;
+    const GameStatus getStatus() const;
 
     void draw(sf::RenderWindow& window) const;
 

@@ -1,6 +1,6 @@
 /*
  * src/paddle.cpp
- * Update: 5/4/25
+ * Update: 6/15/25
  *
  * Paddle implementation
  */
@@ -13,42 +13,21 @@ Paddle::Paddle()
         reset();
 }
 
-void Paddle::setPosition(const float& x, const float& y) {
-    shape.setPosition(x,y);
-}
+sf::Vector2f Paddle::getPosition() const { return shape.getPosition(); }
+void Paddle::setPosition(float x, float y) { shape.setPosition(x,y); }
 
-void Paddle::setSpeed(const float& v) {
-    speed = v;
-}
+sf::Vector2f Paddle::getSize() const { return shape.getSize(); }
+void Paddle::setSize(float l, float w) { shape.setSize(sf::Vector2f(l,w)); }
 
-sf::Vector2f Paddle::getPosition() const {
-    return shape.getPosition();
-}
+float Paddle::getSpeed() const { return speed; }
+void Paddle::setSpeed(float v) { speed = v; }
 
-sf::Vector2f Paddle::getSize() const {
-    return shape.getSize();
-}
+sf::FloatRect Paddle::getBounds() const { return shape.getGlobalBounds(); }
 
-float Paddle::getSpeed() const {
-    return speed;
-}
+void Paddle::moveLeft() { shape.move(-speed, 0); }
 
-sf::FloatRect Paddle::getBounds() const {
-    return shape.getGlobalBounds();
-}
+void Paddle::moveRight() { shape.move(speed, 0); }
 
-void Paddle::moveLeft() {
-    shape.move(-speed, 0);
-}
+void Paddle::draw(sf::RenderWindow& window) const { window.draw(shape); }
 
-void Paddle::moveRight() {
-    shape.move(speed, 0);
-}
-
-void Paddle::draw(sf::RenderWindow& window) const {
-    window.draw(shape);
-}
-
-void Paddle::reset() {
-    shape.setPosition(init_posX, init_posY);
-}
+void Paddle::reset() { shape.setPosition(init_posX, init_posY); }

@@ -1,6 +1,6 @@
 /*
  * src/UI/score.cpp
- * Last Update: 6/7/25
+ * Last Update: 6/15/25
  *
  * score and UI implementation
  */
@@ -8,7 +8,7 @@
 #include "score.hpp"
 #include <string>
 
-Score::Score(sf::Font& font) {
+Score::Score(const sf::Font& font) {
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);

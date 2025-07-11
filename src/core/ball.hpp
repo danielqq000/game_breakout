@@ -1,6 +1,6 @@
 /*
  * src/ball.hpp
- * Last Update: 5/4/25
+ * Last Update: 6/15/25
  *
  * Ball settings
  */
@@ -12,19 +12,22 @@
 
 class Ball {
 public:
-    // Constructor
+    // === Constructor ===
     Ball(float radius = 10.0f);
 
-    // set Functions
-    void setPosition(const float&, const float&);
-    void setSpeedX(const float&);
-    void setSpeedY(const float&);
-
-    // get Functions
+    // === Getters & Setters ===
     sf::Vector2f getPosition() const;
+    void setPosition(float, float);
+
     float getSpeedX() const;
+    void setSpeedX(float);
+
     float getSpeedY() const;
+    void setSpeedY(float);
+
     float getRadius() const;
+    void setRadius(float);
+
     sf::FloatRect getBounds() const;
 
     // Functions
@@ -38,7 +41,7 @@ private:
     sf::CircleShape shape;
     sf::Color color;
     float speedX, speedY;
-    const float minSpeedX = 1.5f, minSpeedY = 1.5f;
+    const float minSpeedX = 0, minSpeedY = 1.5f;
     const float init_speedX = 0, init_speedY = 2.0f;
     const float init_posX = 640, init_posY = 500;
 };

@@ -1,6 +1,6 @@
 /*
  * src/collision.hpp
- * Created: 5/4/25
+ * Created: 6/15/25
  *
  * Collision Manager — handles Ball collisions with Paddle and Bricks
  */
@@ -14,7 +14,7 @@
 #include <vector>
 
 namespace CollisionManager {
-    void handleBallPaddle(Ball& ball, Paddle& paddle);
+    void handleBallPaddle(Ball& ball, const Paddle& paddle);
     bool handleBallBricks(Ball& ball, std::vector<Brick>& bricks);
 }
 

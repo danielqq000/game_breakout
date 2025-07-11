@@ -1,6 +1,6 @@
 /*
  * src/UI/score.hpp
- * Last Update: 6/7/25
+ * Last Update: 6/15/25
  *
  * score settings
  */
@@ -13,7 +13,7 @@
 class Score {
 public:
     // Constructor
-    Score(sf::Font& font);
+    Score(const sf::Font& font);
 
     // Get functions
     const int getScore() const;

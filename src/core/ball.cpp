@@ -1,6 +1,6 @@
 /*
  * src/Ball.cpp
- * Last Update: 5/4/25
+ * Last Update: 6/15/25
  *
  * Ball implementation
  */
@@ -14,46 +14,26 @@ Ball::Ball(float radius)
     reset();
 }
 
-void Ball::setPosition(const float& x, const float& y) {
-    shape.setPosition(x, y);
-}
+sf::Vector2f Ball::getPosition() const { return shape.getPosition(); }
+void Ball::setPosition(float x, float y) { shape.setPosition(x, y); }
 
-void Ball::setSpeedX(const float& sx) {
-    speedX = sx;
-}
+float Ball::getSpeedX() const { return speedX; }
+void Ball::setSpeedX(float sx) { speedX = sx; }
 
-void Ball::setSpeedY(const float& sy) {
-    speedY = sy;
-}
+float Ball::getSpeedY() const { return speedY; }
+void Ball::setSpeedY(float sy) { speedY = sy; }
 
-sf::Vector2f Ball::getPosition() const {
-    return shape.getPosition();
-}
+float Ball::getRadius() const { return shape.getRadius(); }
+void Ball::setRadius(float r) { shape.setRadius(r); }
 
-float Ball::getSpeedX() const {
-    return speedX;
-}
-
-float Ball::getSpeedY() const {
-    return speedY;
-}
-
-float Ball::getRadius() const {
-    return shape.getRadius();
-}
-
-sf::FloatRect Ball::getBounds() const {
-    return shape.getGlobalBounds();
-}
+sf::FloatRect Ball::getBounds() const { return shape.getGlobalBounds(); }
 
 void Ball::move() {
     checkSpeed();
     shape.move(speedX, speedY);
 }
 
-void Ball::draw(sf::RenderWindow& window) const {
-    window.draw(shape);
-}
+void Ball::draw(sf::RenderWindow& window) const { window.draw(shape); }
 
 // Ball collision with the wall
 void Ball::checkCollision(const sf::RenderWindow& window) {
@@ -69,6 +49,9 @@ void Ball::checkCollision(const sf::RenderWindow& window) {
 }
 
 void Ball::checkSpeed() {
+    if (std::abs(speedX) < minSpeedX) {
+        speedX = (speedX > 0) ? minSpeedX : -minSpeedX;
+    }
     if (std::abs(speedY) < minSpeedY) {
         speedY = (speedY > 0) ? minSpeedY : -minSpeedY;
     }
